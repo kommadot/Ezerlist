@@ -1,0 +1,82 @@
+name: Izerlist
+options:
+  bundleIdPrefix: com.izerlist
+  deploymentTarget:
+    iOS: 14.0
+
+targets:
+  IzerlistShared:
+    type: framework
+    platform: iOS
+    sources:
+      - path: IzerlistShared/Sources
+      - path: IzerlistShared/Resources
+    settings:
+      base:
+        INFOPLIST_FILE: IzerlistShared/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.izerlist.shared
+        GENERATE_INFOPLIST_FILE: YES
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+    info:
+      path: IzerlistShared/Info.plist
+      properties:
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+    
+  Izerlist:
+    type: application
+    platform: iOS
+    sources:
+      - path: IzerlistApp
+    dependencies:
+      - target: IzerlistShared
+    settings:
+      base:
+        INFOPLIST_FILE: IzerlistApp/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.izerlist.app
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+    info:
+      path: IzerlistApp/Info.plist
+      properties:
+        CFBundleName: Izerlist
+        CFBundleDisplayName: Izerlist
+        CFBundlePackageType: APPL
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        UILaunchStoryboardName: LaunchScreen
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        LSRequiresIPhoneOS: true
+
+  IzerlistWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: IzerlistWidget
+    dependencies:
+      - target: Izerlist
+      - target: IzerlistShared
+    settings:
+      base:
+        INFOPLIST_FILE: IzerlistWidget/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.izerlist.app.widget
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+    info:
+      path: IzerlistWidget/Info.plist
+      properties:
+        CFBundleName: IzerlistWidget
+        CFBundleDisplayName: Izerlist
+        CFBundlePackageType: XPC!
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
