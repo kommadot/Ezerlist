@@ -1,17 +1,22 @@
 import CoreData
-import IzerlistShared
 
-struct PersistenceController {
-    static let shared = PersistenceController()
+public struct PersistenceController {
+    public static let shared = PersistenceController()
     
-    let container: NSPersistentContainer
+    public let container: NSPersistentContainer
     
-    init() {
-        container = NSPersistentContainer(name: "Izerlist")
+    public init() {
+        // Core Data 모델 파일을 명시적으로 로드
+        guard let modelURL = Bundle(for: TodoItemMO.self).url(forResource: "Ezerlist", withExtension: "momd"),
+              let model = NSManagedObjectModel(contentsOf: modelURL) else {
+            fatalError("Core Data model not found")
+        }
+        
+        container = NSPersistentContainer(name: "Ezerlist", managedObjectModel: model)
         
         // App Group container URL 설정
         if let storeURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Constants.appGroupId)?
-            .appendingPathComponent("Izerlist.sqlite") {
+            .appendingPathComponent("Ezerlist.sqlite") {
             let storeDescription = NSPersistentStoreDescription(url: storeURL)
             container.persistentStoreDescriptions = [storeDescription]
         }
@@ -28,7 +33,7 @@ struct PersistenceController {
     
     // MARK: - Preview Helper
     
-    static var preview: PersistenceController = {
+    public static var preview: PersistenceController = {
         let controller = PersistenceController()
         let viewContext = controller.container.viewContext
         

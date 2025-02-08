@@ -1,8 +1,8 @@
 import Foundation
 
 public enum Constants {
-    public static let appGroupId = "group.com.izerlist.shared"
-    public static let widgetKind = "IzerlistWidget"
+    public static let appGroupId = "group.com.ezerlist.shared"
+    public static let widgetKind = "EzerlistWidget"
     
     public enum UserDefaultsKeys {
         public static let todos = "todos"

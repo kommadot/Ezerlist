@@ -1,7 +1,7 @@
 import WidgetKit
 import SwiftUI
 import CoreData
-import IzerlistShared
+import EzerlistShared
 
 struct Provider: TimelineProvider {
     let store = TodoStore.shared
@@ -29,7 +29,7 @@ struct TodoEntry: TimelineEntry {
     let items: [TodoItem]
 }
 
-struct IzerlistWidgetEntryView : View {
+struct EzerlistWidgetEntryView : View {
     var entry: Provider.Entry
     @Environment(\.widgetFamily) var family
     
@@ -65,14 +65,14 @@ struct IzerlistWidgetEntryView : View {
 }
 
 @main
-struct IzerlistWidget: Widget {
+struct EzerlistWidget: Widget {
     let kind: String = Constants.widgetKind
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            IzerlistWidgetEntryView(entry: entry)
+            EzerlistWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Izerlist")
+        .configurationDisplayName("Ezerlist")
         .description("Show your today's tasks")
         .supportedFamilies([.systemSmall, .systemMedium])
     }

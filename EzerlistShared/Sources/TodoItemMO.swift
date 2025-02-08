@@ -11,6 +11,7 @@ public class TodoItemMO: NSManagedObject {
 
 extension TodoItemMO {
     // TodoItem 구조체로 변환
+    
     public var todoItem: TodoItem {
         TodoItem(
             id: id,

@@ -1,47 +1,54 @@
-name: Izerlist
+name: Ezerlist
 options:
-  bundleIdPrefix: com.izerlist
+  bundleIdPrefix: com.ezerlist
   deploymentTarget:
-    iOS: 14.0
+    iOS: 17.0
 
 targets:
-  IzerlistShared:
+  EzerlistShared:
     type: framework
     platform: iOS
     sources:
-      - path: IzerlistShared/Sources
-      - path: IzerlistShared/Resources
+      - path: EzerlistShared/Sources
+      - path: EzerlistShared/Resources
+        excludes:
+          - "*.xcdatamodeld/*.xcdatamodel"
+    resources:
+      - path: EzerlistShared/Resources
+        includes:
+          - "*.xcdatamodeld"
+          - "*.xcdatamodeld/*.xcdatamodel"
     settings:
       base:
-        INFOPLIST_FILE: IzerlistShared/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: com.izerlist.shared
+        INFOPLIST_FILE: EzerlistShared/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ezerlist.shared
         GENERATE_INFOPLIST_FILE: YES
         MARKETING_VERSION: 1.0.0
         CURRENT_PROJECT_VERSION: 1
     info:
-      path: IzerlistShared/Info.plist
+      path: EzerlistShared/Info.plist
       properties:
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
     
-  Izerlist:
+  Ezerlist:
     type: application
     platform: iOS
     sources:
-      - path: IzerlistApp
+      - path: EzerlistApp
     dependencies:
-      - target: IzerlistShared
+      - target: EzerlistShared
     settings:
       base:
-        INFOPLIST_FILE: IzerlistApp/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: com.izerlist.app
+        INFOPLIST_FILE: EzerlistApp/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ezerlist.app
         MARKETING_VERSION: 1.0.0
         CURRENT_PROJECT_VERSION: 1
     info:
-      path: IzerlistApp/Info.plist
+      path: EzerlistApp/Info.plist
       properties:
-        CFBundleName: Izerlist
-        CFBundleDisplayName: Izerlist
+        CFBundleName: Ezerlist
+        CFBundleDisplayName: Ezerlist
         CFBundlePackageType: APPL
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
@@ -56,25 +63,25 @@ targets:
           - UIInterfaceOrientationPortrait
         LSRequiresIPhoneOS: true
 
-  IzerlistWidget:
+  EzerlistWidget:
     type: app-extension
     platform: iOS
     sources:
-      - path: IzerlistWidget
+      - path: EzerlistWidget
     dependencies:
-      - target: Izerlist
-      - target: IzerlistShared
+      - target: Ezerlist
+      - target: EzerlistShared
     settings:
       base:
-        INFOPLIST_FILE: IzerlistWidget/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: com.izerlist.app.widget
+        INFOPLIST_FILE: EzerlistWidget/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ezerlist.app.widget
         MARKETING_VERSION: 1.0.0
         CURRENT_PROJECT_VERSION: 1
     info:
-      path: IzerlistWidget/Info.plist
+      path: EzerlistWidget/Info.plist
       properties:
-        CFBundleName: IzerlistWidget
-        CFBundleDisplayName: Izerlist
+        CFBundleName: EzerlistWidget
+        CFBundleDisplayName: Ezerlist
         CFBundlePackageType: XPC!
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"

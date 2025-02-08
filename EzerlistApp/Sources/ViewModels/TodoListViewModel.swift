@@ -1,6 +1,6 @@
 import Foundation
 import Combine
-import IzerlistShared
+import EzerlistShared
 
 class TodoListViewModel: ObservableObject {
     @Published private(set) var todayItems: [TodoItem] = []

@@ -14,8 +14,9 @@ public class TodoStore: ObservableObject {
     }
     
     private func loadItems() {
-        let request = NSFetchRequest<TodoItemMO>(entityName: "TodoItemMO")
+        let request = NSFetchRequest<TodoItemMO>(entityName: "TodoItem")
         request.sortDescriptors = [NSSortDescriptor(keyPath: \TodoItemMO.createdDate, ascending: false)]
+        request.predicate = NSPredicate(format: "isCompleted == NO")
         
         do {
             let managedObjects = try viewContext.fetch(request)
@@ -36,7 +37,10 @@ public class TodoStore: ObservableObject {
     }
     
     public func addItem(_ title: String) {
-        let newItem = TodoItemMO(context: viewContext)
+        guard let entity = NSEntityDescription.entity(forEntityName: "TodoItem", in: viewContext) else {
+            fatalError("Failed to find entity description for TodoItem")
+        }
+        let newItem = TodoItemMO(entity: entity, insertInto: viewContext)
         newItem.id = UUID()
         newItem.title = title
         newItem.createdDate = Date()
@@ -46,7 +50,7 @@ public class TodoStore: ObservableObject {
     }
     
     public func toggleItem(_ item: TodoItem) {
-        let request = NSFetchRequest<TodoItemMO>(entityName: "TodoItemMO")
+        let request = NSFetchRequest<TodoItemMO>(entityName: "TodoItem")
         request.predicate = NSPredicate(format: "id == %@", item.id as CVarArg)
         
         do {
@@ -63,7 +67,7 @@ public class TodoStore: ObservableObject {
     
     public func itemsByDate(_ date: Date) -> [TodoItem] {
         let calendar = Calendar.current
-        let request = NSFetchRequest<TodoItemMO>(entityName: "TodoItemMO")
+        let request = NSFetchRequest<TodoItemMO>(entityName: "TodoItem")
         request.predicate = NSPredicate(format: "createdDate >= %@ AND createdDate < %@ AND isCompleted == NO",
                                       calendar.startOfDay(for: date) as NSDate,
                                       calendar.startOfDay(for: calendar.date(byAdding: .day, value: 1, to: date)!) as NSDate)
@@ -79,7 +83,7 @@ public class TodoStore: ObservableObject {
     
     public func completedItemsByDate(_ date: Date) -> [TodoItem] {
         let calendar = Calendar.current
-        let request = NSFetchRequest<TodoItemMO>(entityName: "TodoItemMO")
+        let request = NSFetchRequest<TodoItemMO>(entityName: "TodoItem")
         request.predicate = NSPredicate(format: "completedDate >= %@ AND completedDate < %@ AND isCompleted == YES",
                                       calendar.startOfDay(for: date) as NSDate,
                                       calendar.startOfDay(for: calendar.date(byAdding: .day, value: 1, to: date)!) as NSDate)

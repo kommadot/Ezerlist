@@ -1,8 +1,9 @@
 import SwiftUI
 import CoreData
+import EzerlistShared
 
 @main
-struct IzerlistApp: App {
+struct EzerlistApp: App {
     let persistenceController = PersistenceController.shared
     
     var body: some Scene {
